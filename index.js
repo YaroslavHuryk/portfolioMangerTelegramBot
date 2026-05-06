@@ -8,52 +8,64 @@ const MONGO_URI = process.env.MONGO_URI;
 const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
 const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+app.get('/', (req, res) => {
+  res.send('Bot is alive and running!');
+});
 
-
-(async function() {
-
-    // Configuration
-    cloudinary.config({ 
+// 4. Запуск прослуховування порту
+app.listen(PORT, () => {
+  console.log(`Web server is listening on port ${PORT}`);
+});
+cloudinary.config({ 
         cloud_name: CLOUDINARY_CLOUD_NAME, 
         api_key: CLOUDINARY_API_KEY, 
         api_secret: CLOUDINARY_API_SECRET // Click 'View API Keys' above to copy your API secret
     });
+
+// (async function() {
+
+    // Configuration
+    
     
     // Upload an image
-     const uploadResult = await cloudinary.uploader
-       .upload(
-           'https://res.cloudinary.com/demo/image/upload/getting-started/shoes.jpg', {
-               public_id: 'shoes',
-           }
-       )
-       .catch((error) => {
-           console.log(error);
-       });
+    //  const uploadResult = await cloudinary.uploader
+    //    .upload(
+    //        'https://res.cloudinary.com/demo/image/upload/getting-started/shoes.jpg', {
+    //            public_id: 'shoes',
+    //        }
+    //    )
+    //    .catch((error) => {
+    //        console.log(error);
+    //    });
     
-    console.log(uploadResult);
+    // console.log(uploadResult);
     
     // Optimize delivery by resizing and applying auto-format and auto-quality
-    const optimizeUrl = cloudinary.url('shoes', {
-        fetch_format: 'auto',
-        quality: 'auto'
-    });
+//     const optimizeUrl = cloudinary.url('shoes', {
+//         fetch_format: 'auto',
+//         quality: 'auto'
+//     });
     
-    console.log(optimizeUrl);
+//     console.log(optimizeUrl);
     
-    // Transform the image: auto-crop to square aspect_ratio
-    const autoCropUrl = cloudinary.url('shoes', {
-        crop: 'auto',
-        gravity: 'auto',
-        width: 500,
-        height: 500,
-    });
+//     // Transform the image: auto-crop to square aspect_ratio
+//     const autoCropUrl = cloudinary.url('shoes', {
+//         crop: 'auto',
+//         gravity: 'auto',
+//         width: 500,
+//         height: 500,
+//     });
     
-    console.log(autoCropUrl);    
-})();
+//     console.log(autoCropUrl);    
+// })();
+
 // 1. Вставте сюди ваш токен, який ви отримали від @BotFather у Telegram
 // Токен має бути в одинарних лапках!
 const bot = new Telegraf(BOT_TOKEN);
-// const mongoURI = 'mongodb+srv://yaroslavspace10_db_user:7IVotUn9IFvzJdrs@cluster1.iftpvw.mongodb.net/portfolio?appName=TelegramBot'
+
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log('Підключення до MongoDB успішне!'))
